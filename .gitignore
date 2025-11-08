@@ -1,0 +1,20 @@
+# Node modules
+node_modules/
+
+# Build files
+*.map
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Development
+src/
+tsconfig.json
+esbuild.config.mjs
+package.json
+package-lock.json
