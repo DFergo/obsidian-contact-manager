@@ -1,9 +1,9 @@
 {
 	"id": "contact-manager",
 	"name": "ContactManager",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
-	"description": "Comprehensive contact management system with People, Companies, Unions, and Organizations.",
+	"description": "Comprehensive contact management system with People, Companies, Unions, and Organizations",
 	"author": "Malicia",
 	"authorUrl": "",
 	"isDesktopOnly": false

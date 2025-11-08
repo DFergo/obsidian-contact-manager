@@ -324,22 +324,21 @@ var ContactCardsSettingTab = class extends import_obsidian.PluginSettingTab {
     );
   }
   addMultipleFolderSetting(name, settingKey, description) {
-    const currentFolders = this.plugin.settings[settingKey];
     const setting = new import_obsidian.Setting(this.containerEl).setName(name).setDesc(description || `Configure ${name.toLowerCase()}`);
     const foldersContainer = setting.controlEl.createDiv({ cls: "multiple-folders-container" });
     const renderFolders = () => {
       foldersContainer.empty();
-      const folders = this.plugin.settings[settingKey];
-      folders.forEach((folder, index) => {
+      const currentFolders = this.plugin.settings[settingKey];
+      currentFolders.forEach((folder, index) => {
         const folderRow = foldersContainer.createDiv({ cls: "folder-row" });
         this.createAutocompleteInput(
           folderRow,
           "Folder path",
           folder,
           async (value) => {
-            const updatedFolders = [...folders];
-            updatedFolders[index] = value;
-            this.plugin.settings[settingKey] = updatedFolders;
+            const freshFolders = [...this.plugin.settings[settingKey]];
+            freshFolders[index] = value;
+            this.plugin.settings[settingKey] = freshFolders;
             await this.plugin.saveSettings();
           }
         );
@@ -348,8 +347,9 @@ var ContactCardsSettingTab = class extends import_obsidian.PluginSettingTab {
           cls: "folder-remove-button"
         });
         removeButton.addEventListener("click", async () => {
-          const updatedFolders = folders.filter((_, i) => i !== index);
-          this.plugin.settings[settingKey] = updatedFolders;
+          const freshFolders = [...this.plugin.settings[settingKey]];
+          freshFolders.splice(index, 1);
+          this.plugin.settings[settingKey] = freshFolders;
           await this.plugin.saveSettings();
           renderFolders();
         });
@@ -359,8 +359,9 @@ var ContactCardsSettingTab = class extends import_obsidian.PluginSettingTab {
         cls: "folder-add-button"
       });
       addButton.addEventListener("click", async () => {
-        const updatedFolders = [...folders, ""];
-        this.plugin.settings[settingKey] = updatedFolders;
+        const freshFolders = [...this.plugin.settings[settingKey]];
+        freshFolders.push("");
+        this.plugin.settings[settingKey] = freshFolders;
         await this.plugin.saveSettings();
         renderFolders();
       });
